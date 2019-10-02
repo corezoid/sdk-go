@@ -10,7 +10,7 @@ package main
 
 import (
     "log"
-    corezoid "github.com/corezoid/sdk-go"
+    "github.com/corezoid/sdk-go/corezoid"
 )
 
 func main() {
@@ -47,7 +47,7 @@ package main
 
 import (
     "log"
-    corezoid "github.com/corezoid/sdk-go"
+    "github.com/corezoid/sdk-go/corezoid"
 )
 
 func main() {
