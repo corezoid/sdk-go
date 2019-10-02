@@ -7,13 +7,13 @@ import (
 )
 
 type Result struct {
-	RequestProc string `json:"request_proc"`
-	Ops []MapOp `json:"ops"`
-	Response *http.Response
-	Err error
+	RequestProc string  `json:"request_proc"`
+	Ops         []MapOp `json:"ops"`
+	Response    *http.Response
+	Err         error
 }
 
-func (r *Result) Decode() (*Result){
+func (r *Result) Decode() *Result {
 	if r.Err != nil {
 		return r
 	}
