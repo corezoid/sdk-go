@@ -168,9 +168,3 @@ func (c *Client) genSignature(payload []byte, timestamp int64) string {
 
 	return hex.EncodeToString(sha[:])
 }
-
-var quoteEscaper = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
-
-func escapeQuotes(s string) string {
-	return quoteEscaper.Replace(s)
-}
