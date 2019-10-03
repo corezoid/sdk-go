@@ -27,7 +27,7 @@ func NewApiKey(login int, secret string) *Client {
 	}
 }
 
-// NewApiKey creates a client that uses Single account (SA) access token to access API
+// NewSAToken creates a client that uses Single account (SA) access token to access API
 func NewSAToken(token string) *Client {
 	return &Client{
 		Endpoint:   "https://api.corezoid.com",
