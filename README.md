@@ -17,7 +17,7 @@ func main() {
     secret := "theSecret"
     login := 111222
     
-    client := corezoid.New(login, secret)
+    client := corezoid.NewApiKey(login, secret)
 
 	ops := corezoid.Ops{}
 	ops.Add(corezoid.MapOp{
@@ -57,13 +57,13 @@ func main() {
     secret := "theSecret"
     login := 111222
     
-    client := corezoid.New(login, secret)
+    client := corezoid.NewApiKey(login, secret)
 
 	res := client.Upload(corezoid.MapOp{
 		"type":      "create",
 		"obj":       "obj_scheme",
 		"folder_id": "289791",
-		"scheme":    scheme.Scheme0,
+		"scheme":    schema,
 		"async": "false",
 	}).Decode()
 
