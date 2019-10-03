@@ -14,8 +14,7 @@ import (
 type Client struct {
 	Endpoint   string
 	HttpClient *http.Client
-	auth auth
-
+	auth       auth
 }
 
 // NewApiKey creates a client that uses api key to access API
@@ -23,7 +22,7 @@ func NewApiKey(login int, secret string) *Client {
 	return &Client{
 		Endpoint:   "https://api.corezoid.com",
 		HttpClient: http.DefaultClient,
-		auth:      &apiKeyAuth{login: login, secret: secret},
+		auth:       &apiKeyAuth{login: login, secret: secret},
 	}
 }
 
@@ -32,7 +31,7 @@ func NewSAToken(token string) *Client {
 	return &Client{
 		Endpoint:   "https://api.corezoid.com",
 		HttpClient: http.DefaultClient,
-		auth:      &saTokenAuth{token: token},
+		auth:       &saTokenAuth{token: token},
 	}
 }
 

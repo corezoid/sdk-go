@@ -23,7 +23,7 @@ type apiKeyAuth struct {
 }
 
 type saTokenAuth struct {
-	token  string
+	token        string
 	encodedToken string
 }
 
