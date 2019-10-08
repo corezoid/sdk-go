@@ -13,21 +13,21 @@ import (
 	"time"
 )
 
-type auth interface {
-	sign(req *http.Request) error
+type Auth interface {
+	Sign(req *http.Request) error
 }
 
-type apiKeyAuth struct {
-	login  int
-	secret string
+type ApiKeyAuth struct {
+	Login  int
+	Secret string
 }
 
-type saTokenAuth struct {
-	token        string
+type SATokenAuth struct {
+	Token        string
 	encodedToken string
 }
 
-func (a *apiKeyAuth) sign(req *http.Request) error {
+func (a *ApiKeyAuth) Sign(req *http.Request) error {
 	payload, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		return err
@@ -45,7 +45,7 @@ func (a *apiKeyAuth) sign(req *http.Request) error {
 	req.URL.Path = fmt.Sprintf(
 		"%s/%d/%d/%s",
 		req.URL.Path,
-		a.login,
+		a.Login,
 		timestamp,
 		signature,
 	)
@@ -55,9 +55,9 @@ func (a *apiKeyAuth) sign(req *http.Request) error {
 	return nil
 }
 
-func (a *saTokenAuth) sign(req *http.Request) error {
+func (a *SATokenAuth) Sign(req *http.Request) error {
 	if a.encodedToken == "" {
-		a.encodedToken = base64.StdEncoding.EncodeToString([]byte(a.token))
+		a.encodedToken = base64.StdEncoding.EncodeToString([]byte(a.Token))
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.encodedToken))
@@ -65,7 +65,7 @@ func (a *saTokenAuth) sign(req *http.Request) error {
 	return nil
 }
 
-func (a *apiKeyAuth) genMultipartSignature(payload []byte, timestamp int64) string {
+func (a *ApiKeyAuth) genMultipartSignature(payload []byte, timestamp int64) string {
 	payload = regexp.MustCompile(`-+[\d\w]+-{0,}\r\n`).ReplaceAll(payload, []byte(""))
 	payload = regexp.MustCompile(`\r\n\r\n`).ReplaceAll(payload, []byte("\r\n"))
 	payload = []byte(strings.TrimSpace(string(payload)))
@@ -86,8 +86,8 @@ func (a *apiKeyAuth) genMultipartSignature(payload []byte, timestamp int64) stri
 	return a.genSignature([]byte(result), timestamp)
 }
 
-func (a *apiKeyAuth) genSignature(payload []byte, timestamp int64) string {
-	sha := sha1.Sum([]byte(fmt.Sprintf("%d%s%s%s", timestamp, a.secret, payload, a.secret)))
+func (a *ApiKeyAuth) genSignature(payload []byte, timestamp int64) string {
+	sha := sha1.Sum([]byte(fmt.Sprintf("%d%s%s%s", timestamp, a.Secret, payload, a.Secret)))
 
 	return hex.EncodeToString(sha[:])
 }

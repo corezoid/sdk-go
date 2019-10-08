@@ -2,6 +2,7 @@ package corezoid
 
 type Op interface {
 	Raw() map[string]interface{}
+	Ok() bool
 }
 
 type MapOp map[string]interface{}
@@ -28,4 +29,13 @@ func (ops *Ops) Raw() map[string]interface{} {
 
 func (op MapOp) Raw() map[string]interface{} {
 	return op
+}
+
+func (op MapOp) Ok() bool {
+	proc, ok := op["proc"].(string)
+	if !ok {
+		return false
+	}
+
+	return proc == "ok"
 }

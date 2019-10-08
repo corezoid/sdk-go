@@ -5,37 +5,37 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"net/http/httputil"
 	"net/textproto"
+	"strconv"
 	"strings"
 )
 
 type Client struct {
 	Endpoint   string
 	HttpClient *http.Client
-	auth       auth
 }
 
 // NewApiKey creates a client that uses api key to access API
-func NewApiKey(login int, secret string) *Client {
+func New(endpoint string, httpClient *http.Client) *Client {
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+
 	return &Client{
-		Endpoint:   "https://api.corezoid.com",
-		HttpClient: http.DefaultClient,
-		auth:       &apiKeyAuth{login: login, secret: secret},
+		Endpoint: endpoint,
+		HttpClient: httpClient,
 	}
 }
 
-// NewSAToken creates a client that uses Single account (SA) access token to access API
-func NewSAToken(token string) *Client {
-	return &Client{
-		Endpoint:   "https://api.corezoid.com",
-		HttpClient: http.DefaultClient,
-		auth:       &saTokenAuth{token: token},
-	}
+func NewCloud(httpClient *http.Client) *Client {
+	return New("https://api.corezoid.com", httpClient)
 }
 
-func (c *Client) Call(ops Ops) (result *Result) {
+func (c *Client) Call(ops Ops, auth Auth) (result *Result) {
 	result = &Result{}
 
 	payload, err := json.Marshal(ops.Raw())
@@ -54,12 +54,15 @@ func (c *Client) Call(ops Ops) (result *Result) {
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	err = c.auth.sign(req)
+	err = auth.Sign(req)
 	if err != nil {
 		result.Err = err
 
 		return result
 	}
+
+	b, _ := httputil.DumpRequest(req, true)
+	log.Print("REQUEST: ", string(b))
 
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
@@ -69,10 +72,13 @@ func (c *Client) Call(ops Ops) (result *Result) {
 	}
 	result.Response = resp
 
+	b, _ = httputil.DumpResponse(resp, true)
+	log.Print("RESPONSE: ", string(b))
+
 	return result
 }
 
-func (c *Client) Upload(op Op) (result *Result) {
+func (c *Client) Upload(op Op, auth Auth) (result *Result) {
 	result = &Result{}
 
 	body := &bytes.Buffer{}
@@ -94,9 +100,20 @@ func (c *Client) Upload(op Op) (result *Result) {
 	delete(rawOp, "scheme")
 
 	for key, val := range rawOp {
-		err := writer.WriteField(key, val.(string))
+		var err error
+		switch t := val.(type) {
+		case int64:
+			err = writer.WriteField(key, strconv.FormatInt(val.(int64), 10))
+		case string:
+			err = writer.WriteField(key, val.(string))
+		default:
+			err = fmt.Errorf("key %s has unsupported type: %s", key, t)
+		}
+
 		if err != nil {
-			panic(err)
+			result.Err = err
+
+			return result
 		}
 	}
 	err = writer.Close()
@@ -115,12 +132,15 @@ func (c *Client) Upload(op Op) (result *Result) {
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 
-	err = c.auth.sign(req)
+	err = auth.Sign(req)
 	if err != nil {
 		result.Err = err
 
 		return result
 	}
+
+	b, _ := httputil.DumpRequest(req, true)
+	log.Print("REQUEST: ", string(b))
 
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
@@ -128,6 +148,9 @@ func (c *Client) Upload(op Op) (result *Result) {
 
 		return result
 	}
+
+	b, _ = httputil.DumpResponse(resp, true)
+	log.Print("RESPONSE: ", string(b))
 
 	result.Response = resp
 
