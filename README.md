@@ -1,4 +1,4 @@
-# Go-lang SDK for Corezoid products
+# Golang SDK for Corezoid products
 
 ## Documentation
 
