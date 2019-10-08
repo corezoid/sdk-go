@@ -5,10 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/http"
-	"net/http/httputil"
 	"net/textproto"
 	"strconv"
 	"strings"
@@ -61,9 +59,6 @@ func (c *Client) Call(ops Ops, auth Auth) (result *Result) {
 		return result
 	}
 
-	b, _ := httputil.DumpRequest(req, true)
-	log.Print("REQUEST: ", string(b))
-
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
 		result.Err = err
@@ -71,9 +66,6 @@ func (c *Client) Call(ops Ops, auth Auth) (result *Result) {
 		return result
 	}
 	result.Response = resp
-
-	b, _ = httputil.DumpResponse(resp, true)
-	log.Print("RESPONSE: ", string(b))
 
 	return result
 }
@@ -139,18 +131,12 @@ func (c *Client) Upload(op Op, auth Auth) (result *Result) {
 		return result
 	}
 
-	b, _ := httputil.DumpRequest(req, true)
-	log.Print("REQUEST: ", string(b))
-
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
 		result.Err = err
 
 		return result
 	}
-
-	b, _ = httputil.DumpResponse(resp, true)
-	log.Print("RESPONSE: ", string(b))
 
 	result.Response = resp
 
