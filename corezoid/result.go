@@ -3,6 +3,7 @@ package corezoid
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 )
 
@@ -26,6 +27,10 @@ func (r *Result) Decode() *Result {
 	if err := json.NewDecoder(r.Response.Body).Decode(&r); err != nil {
 		r.Err = err
 		r.Response.Body.Close()
+	}
+
+	if r.RequestProc != "ok" {
+		r.Err = fmt.Errorf("request_proc not ok")
 	}
 
 	return r
