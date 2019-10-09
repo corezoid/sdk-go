@@ -1,4 +1,4 @@
-# Go-lang SDK for Corezoid
+## Corezoid Golang SDK
 
 The library aim is to simplify communication with [Corezoid](https://corezoid.com/) API for Golang developers.
 The client implements Corezoid V2 API. For more details, please check the [API documentation](https://doc.corezoid.com/en/api/v2/) out.  
