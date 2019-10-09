@@ -33,7 +33,7 @@ func NewCloud(httpClient *http.Client) *Client {
 	return New("https://api.corezoid.com", httpClient)
 }
 
-func (c *Client) Call(ops Ops, auth Auth) (result *Result) {
+func (c *Client) CallJson(ops Ops, auth Auth) (result *Result) {
 	result = &Result{}
 
 	payload, err := json.Marshal(ops.Raw())
@@ -70,7 +70,7 @@ func (c *Client) Call(ops Ops, auth Auth) (result *Result) {
 	return result
 }
 
-func (c *Client) Upload(op Op, auth Auth) (result *Result) {
+func (c *Client) CallUpload(op Op, auth Auth) (result *Result) {
 	result = &Result{}
 
 	body := &bytes.Buffer{}
