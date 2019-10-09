@@ -10,16 +10,16 @@ import (
 )
 
 type Result struct {
-	UserId               int64    `json:"user_id"`
-	Token                oauth.AccessToken `json:"access_token"`
-	ExpireAt             int64  `json:"access_token_expire"`
+	UserId               int64              `json:"user_id"`
+	Token                oauth.AccessToken  `json:"access_token"`
+	ExpireAt             int64              `json:"access_token_expire"`
 	RefreshToken         oauth.RefreshToken `json:"refresh_token"`
-	RefreshTokenExpireAt int64  `json:"refresh_token_expire"`
-	Result             string `json:"result"`
-	Description        string `json:"description"`
-	Code oauth.AuthCode
-	Err error
-	Resp *http.Response
+	RefreshTokenExpireAt int64              `json:"refresh_token_expire"`
+	Result               string             `json:"result"`
+	Description          string             `json:"description"`
+	Code                 oauth.AuthCode
+	Err                  error
+	Resp                 *http.Response
 }
 
 type Api struct {

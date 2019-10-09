@@ -10,18 +10,18 @@ import (
 )
 
 type Result struct {
-	UserId int64 `json:"user_id"`
-	Nick string `json:"nick"`
-	UserPhoto string `json:"user_photo"`
-	Login string `json:"login"`
-	Lang string `json:"lang"`
-	Status string `json:"status"`
-	CreationTime int `json:"create_time"`
-	Result string `json:"result"`
-	Description string `json:"description"`
-	Code string
-	Err error
-	Resp *http.Response
+	UserId       int64  `json:"user_id"`
+	Nick         string `json:"nick"`
+	UserPhoto    string `json:"user_photo"`
+	Login        string `json:"login"`
+	Lang         string `json:"lang"`
+	Status       string `json:"status"`
+	CreationTime int    `json:"create_time"`
+	Result       string `json:"result"`
+	Description  string `json:"description"`
+	Code         string
+	Err          error
+	Resp         *http.Response
 }
 
 type Api struct {
