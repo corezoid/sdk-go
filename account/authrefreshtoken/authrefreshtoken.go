@@ -16,6 +16,7 @@ type Result struct {
 	NewAccessToken         oauth.AccessToken `json:"new_access_token"`
 	NewAccessTokenExpireAt int64             `json:"new_access_token_expire"`
 	RefreshToken           oauth.RefreshToken
+	RefreshTokenExpire     int64 `json:"refresh_token_expire"`
 	Err                    error
 	Resp                   *http.Response
 }
