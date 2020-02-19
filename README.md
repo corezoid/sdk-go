@@ -1,4 +1,4 @@
 ## Golang SDK for Middleware products  
 
-* [Corezoid SKD](corezoid/README.md)
-* [Account SKD](account/README.md)
+* [Corezoid SDK](corezoid/README.md)
+* [Account SDK](account/README.md)
