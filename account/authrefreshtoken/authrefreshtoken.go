@@ -10,14 +10,15 @@ import (
 )
 
 type Result struct {
-	Result             string `json:"result"`
-	Description        string `json:"description"`
-	UserId             int `json:"user_id"`
-	NewAccessToken     oauth.AccessToken `json:"new_access_token"`
-	NewAccessTokenExpireAt int64 `json:"new_access_token_expire"`
-	RefreshToken       oauth.RefreshToken
-	Err error
-	Resp *http.Response
+	Result                 string            `json:"result"`
+	Description            string            `json:"description"`
+	UserId                 int               `json:"user_id"`
+	NewAccessToken         oauth.AccessToken `json:"new_access_token"`
+	NewAccessTokenExpireAt int64             `json:"new_access_token_expire"`
+	RefreshToken           oauth.RefreshToken
+	RefreshTokenExpire     int64 `json:"refresh_token_expire"`
+	Err                    error
+	Resp                   *http.Response
 }
 
 type Api struct {

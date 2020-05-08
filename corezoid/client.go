@@ -24,7 +24,7 @@ func New(endpoint string, httpClient *http.Client) *Client {
 	}
 
 	return &Client{
-		Endpoint: endpoint,
+		Endpoint:   endpoint,
 		HttpClient: httpClient,
 	}
 }

@@ -23,6 +23,11 @@ func (r *Result) Decode() *Result {
 
 		return r
 	}
+	if r.Response.StatusCode != http.StatusOK {
+		r.Err = fmt.Errorf("response status not ok, but %d", r.Response.StatusCode)
+
+		return r
+	}
 
 	if err := json.NewDecoder(r.Response.Body).Decode(&r); err != nil {
 		r.Err = err
