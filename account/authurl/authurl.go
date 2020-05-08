@@ -2,9 +2,10 @@ package authurl
 
 import (
 	"fmt"
-	"github.com/corezoid/sdk-go/account/oauth"
 	"net/url"
 	"strings"
+
+	"github.com/corezoid/sdk-go/account/oauth"
 )
 
 type Api struct {
