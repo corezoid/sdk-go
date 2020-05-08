@@ -3,10 +3,11 @@ package userinfo
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/corezoid/sdk-go/account/oauth"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/corezoid/sdk-go/account/oauth"
 )
 
 type Result struct {
