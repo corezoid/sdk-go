@@ -32,6 +32,7 @@ func (r *Result) Decode() *Result {
 	if err := json.NewDecoder(r.Response.Body).Decode(&r); err != nil {
 		r.Err = err
 		r.Response.Body.Close()
+                return r
 	}
 
 	if r.RequestProc != "ok" {
