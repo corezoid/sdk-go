@@ -2,7 +2,7 @@
 
 The library is a Golang package for [Single Account](http://account.corezoid.com) service API.  
 
-Get redirect authoriztion URL:
+Get redirect authorization URL:
 
 ```go
 package main
@@ -120,3 +120,33 @@ func main() {
 }
 ```
 
+Logout:
+
+```go
+package main
+
+import (
+	"log"
+	"github.com/corezoid/sdk-go/account/logout"
+	"github.com/corezoid/sdk-go/account/oauth"
+)
+
+func main() {
+	token := oauth.AccessToken("anAccessToken")
+
+	api := logout.New(oauth.Client{
+		ClientId:     "anId",
+		ClientSecret: "aSecret",
+		HttpHost:     "https://account.corezoid.com",
+		RedirectUri:  "https://your.service/back/url",
+	}, nil)
+
+	r := api.Request(token).Decode()
+	if r.Err != nil {
+		panic(r.Err)
+	}
+	defer r.Close()
+
+	log.Printf("%+v", r)
+}
+```
