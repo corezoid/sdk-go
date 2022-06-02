@@ -11,7 +11,7 @@ import (
 )
 
 type Result struct {
-	Result string `json:"result"`
+	Result string  `json:"result"`
 	Scopes []Scope `json:"scopes"`
 	Err    error
 	Resp   *http.Response
@@ -54,6 +54,8 @@ func (api *Api) Request(token oauth.AccessToken, scopes []string) *Result {
 
 		return result
 	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := api.h.Do(req)
 	if err != nil {
