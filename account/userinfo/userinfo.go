@@ -55,6 +55,8 @@ func (api *Api) Request(token oauth.AccessToken) *Result {
 		return result
 	}
 
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
 	resp, err := api.h.Do(req)
 	if err != nil {
 		result.Err = err
